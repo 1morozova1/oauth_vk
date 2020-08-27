@@ -1,0 +1,34 @@
+{% extends 'bootstrap/base.html' %}
+
+{% block title %}
+    {{ ('Authorization') }}
+{% endblock %}
+
+{% block content %}
+    <style>
+        html, body, .container-table {
+            height: 100%;
+        }
+
+        .container-table {
+            display: table;
+        }
+
+        .vertical-center-row {
+            display: table-cell;
+            vertical-align: middle;
+        }
+    </style>
+    <div class="container container-table">
+        <div class="row vertical-center-row">
+            <div class="text-center col-md-4 col-md-offset-4">
+                <h1 class="text-primary">
+                    {{ ('Посмотреть 5 своих друзей?') }}
+                </h1>
+                <a class='btn btn-secondary'
+                   href="{{ url_for('oauth_authorize', provider='vk') }}"><img
+                        src='https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/VK.com-logo.svg/300px-VK.com-logo.svg.png'></a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
