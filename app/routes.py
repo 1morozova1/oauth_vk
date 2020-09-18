@@ -1,9 +1,10 @@
 from app import app
 from flask import render_template, redirect, url_for, flash, request
 from flask_login import logout_user, current_user, login_required, login_user
-from app.oauth import OAuthSignIn
+from sqlalchemy.sql import func
 
 from app import db
+from app.oauth import OAuthSignIn
 from app.models import User, Friend
 
 
@@ -19,7 +20,7 @@ def index():
         'index.html',
         first_name=current_user.first_name,
         last_name=current_user.last_name,
-        friends=current_user.friends
+        friends=db.session.query(Friend).order_by(func.random()).limit(5).all()
     )
 
 
