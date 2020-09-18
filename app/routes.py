@@ -1,9 +1,9 @@
-from app import app
+import random
 from flask import render_template, redirect, url_for, flash, request
 from flask_login import logout_user, current_user, login_required, login_user
-from sqlalchemy.sql import func
 
 from app import db
+from app import app
 from app.oauth import OAuthSignIn
 from app.models import User, Friend
 
@@ -20,15 +20,12 @@ def index():
         'index.html',
         first_name=current_user.first_name,
         last_name=current_user.last_name,
-        friends=db.session.query(Friend).order_by(func.random()).limit(5).all()
+        friends=random.sample(current_user.friends, 5),
     )
 
 
 @app.route('/logout', methods=['GET', 'POST'])
 def logout():
-    db.session.query(User).filter(User.id == current_user.id).delete()
-    db.session.query(Friend).filter(Friend.user_id == current_user.id).delete()
-    db.session.commit()
     logout_user()
     return redirect(url_for('index'))
 
