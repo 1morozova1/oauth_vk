@@ -4,7 +4,7 @@ from flask_login import logout_user, current_user, login_required, login_user
 from app.oauth import OAuthSignIn
 
 from app import db
-from app.models import User
+from app.models import User, Friend
 
 
 @app.route('/auth', methods=['GET', 'POST'])
@@ -25,6 +25,9 @@ def index():
 
 @app.route('/logout', methods=['GET', 'POST'])
 def logout():
+    db.session.query(User).filter(User.id == current_user.id).delete()
+    db.session.query(Friend).filter(Friend.user_id == current_user.id).delete()
+    db.session.commit()
     logout_user()
     return redirect(url_for('index'))
 
